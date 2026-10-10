@@ -770,7 +770,7 @@
 
 <h1 id="1-introduction">1. <span style="color: #2e74b5">Introduction</span></h1>
 <p>The document’s PDF is |<a href="https://1drv.ms/b/c/f53a919f43d27eb5/IQD2Peze_pE-TbBCcLpMecdkAcRl199nJE37ie2r9AU0Rvo?e=oNlLxJ">HERE</a>|.</p>
-<p>The document’s codes are |<a href="https://1drv.ms/u/c/f53a919f43d27eb5/IQB1FUAPaes_Q6n_LKdFB42iAWBl9iVXPZ9XLyfORIUK1sI?e=y1YBXA">HERE</a>|.</p>
+<p>The document’s codes are |<a href="https://1drv.ms/u/c/f53a919f43d27eb5/IQAAo21FSGpDRpdXFxPOyTxhAVZh6plhHkD0xdszOkDUWL4">HERE</a>|.</p>
 <p>This document is a product of Anthropic’s IA Claude. It follows the document <a href="https://stahe.github.io/en-nestjs-html-sept-2026/"><u><span style="color: #0563c1">“Step-by-Step Introduction to the [NestJS] Web Framework”</span></u></a> (2026), which itself adapted the document <a href="https://stahe.github.io/en-aspnetmvc-nov-2013/"><u><span style="color: #0563c1">“Introduction to ASP.NET MVC by Example”</span></u></a> (2013) to the <em>[NestJS]</em> framework. This document takes the reverse path and returns to the <em>[.NET]</em> platform, in its current version:</p>
 <ul>
 <li>the <em>[NestJS]</em> framework and the <em>[TypeScript]</em> language are replaced by the <em>[ASP.NET Core MVC]</em> framework and the <em>[C#]</em> language;</li>
@@ -788,13 +788,13 @@
 </ul>
 <p>The web layer itself follows the <em>[MVC]</em> (<em>[Model – View – Controller]</em>) model:</p>
 <ul>
-<li>the controller (C) is a class whose methods—called <strong>actions</strong>—each handle a specific type of request (for example, <strong><em>[GET /agenda]</em></strong>). An action reads the request parameters, invokes the business layer, and then selects the view to display;</li>
+<li>the controller (C) is a class whose methods—called <strong>actions</strong>—each handle a specific type of request (for example, <strong><em>[GET /schedule]</em></strong>). An action reads the request parameters, invokes the business layer, and then selects the view to display;</li>
 <li>the model (M) is the set of data that the action passes to the view: a <em>[C#]</em> object;</li>
 <li>the view (V) is a <em>[Razor]</em> file (extension <strong><em>[.cshtml]</em></strong>): from HTML, in which <em>[C#]</em> expressions—preceded by the character <strong><em>[@]</em></strong>—are replaced by data from the model.</li>
 </ul>
 <p>The processing of a request follows the numbered steps in the diagram:</p>
 <ul>
-<li>1: The browser sends a HTTP request, for example, <strong><em>[GET /agenda?idMedecin=1&amp;jour=2026-09-24]</em></strong>;</li>
+<li>1: The browser sends a HTTP request, for example, <strong><em>[GET /schedule?doctorId=1&amp;day=2026-09-24]</em></strong>;</li>
 <li>2: The web server <em>[Kestrel]</em>, integrated with <em>[ASP.NET Core]</em>, receives the request. It passes through a series of <strong>middleware components</strong> (cookie reading, authentication, static files, etc.), then <em>[ASP.NET Core]</em> selects the action responsible for handling this request: this is <strong>routing</strong>. Before reaching the action, the request may still pass through <strong>filters</strong>, which we’ll explore in later chapters;</li>
 <li>3: The action requests the data it needs from the business layer;</li>
 <li>4: It constructs the view template and designates the view that should display it;</li>
@@ -820,11 +820,11 @@
 <p>The modification is not straightforward because it involves a change to the database structure. Ask IA to provide you with the new application code and the SQL script to create the new database. To do this, you’ll need to provide him with the ZIP file containing the complete project as well as the SQL script for the old database.</p>
 <p>Also, I haven’t reviewed the course created by <strong>Claude</strong>. He had already produced a perfect [NestJS] course. I assumed the same was true for this one. If you run into a problem understanding something, the solution is always the same: ask your favorite IA to explain what you don’t understand. <strong>Claude</strong>, for example, is very good at this. You may need to “upload” the example you don’t understand to him.</p>
 <p><strong>End of note</strong>.</p>
-<p>The case study at the end of this document is a complete application. Readers will likely want to see it in action before delving into the details of the framework: here’s how to run it. It’s located in the <strong><em>[rdvmedecins2-aspnetcore-mvc]</em></strong> folder, next to the <strong><em>[exemples]</em></strong> folder:</p>
+<p>The case study at the end of this document is a complete application. Readers will likely want to see it in action before delving into the details of the framework: here’s how to run it. It’s located in the <strong><em>[rdvmedecins2-aspnetcore-mvc]</em></strong> folder, next to the <strong><em>[examples]</em></strong> folder:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
 <span class="normal"><a href="#__codelineno-0-2">2</a></span>
 <span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>aspnetcore-mvc-sept-2026/
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a>├── exemples/
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>├── examples/
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a>└── rdvmedecins2-aspnetcore-mvc/
 </code></pre></div></td></tr></table></div>
 <p>You must have installed SDK, <em>[.NET]</em> 10, <em>[Visual Studio Code],</em> and <em>[MySQL]</em> (see appendices). Then:</p>
@@ -834,7 +834,7 @@
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>mysql -u root &lt; database/dbrdvmedecins2.sql
 </code></pre></div></td></tr></table></div>
 <ul>
-<li><strong>Check the database connection</strong>. The application connects to <em>[MySQL]</em> on <strong><em>[localhost]</em></strong>, port 3306, using the user <strong><em>[root]</em></strong> <strong>without a password</strong> (the default settings for <em>[Laragon]</em>). If your <strong><em>[root]</em></strong> account has a password, enter it in the application’s <strong><em>[appsettings.json]</em></strong> file, at the end of the <strong><em>[ConnectionStrings:RdvMedecins]</em></strong> connection string (<strong><em>[...;User=root;Password=monMotDePasse;]</em></strong>). For <em>[MariaDB]</em>, also specify its version in the <strong><em>[MySql:ServerVersion]</em></strong> key (for example, <strong><em>[10.11.0-mariadb]</em></strong>);</li>
+<li><strong>Check the database connection</strong>. The application connects to <em>[MySQL]</em> on <strong><em>[localhost]</em></strong>, port 3306, using the user <strong><em>[root]</em></strong> <strong>without a password</strong> (the default settings for <em>[Laragon]</em>). If your <strong><em>[root]</em></strong> account has a password, enter it in the application’s <strong><em>[appsettings.json]</em></strong> file, at the end of the <strong><em>[ConnectionStrings:RdvMedecins]</em></strong> connection string (<strong><em>[...;User=root;Password=myPassword;]</em></strong>). For <em>[MariaDB]</em>, also specify its version in the <strong><em>[MySql:ServerVersion]</em></strong> key (for example, <strong><em>[10.11.0-mariadb]</em></strong>);</li>
 <li><strong>Open the</strong> <strong><em>[rdvmedecins2-aspnetcore-mvc]</em></strong> <strong>folder</strong> in <em>[Visual Studio Code]</em> (File menu / Open Folder), then open a terminal (Terminal menu / New Terminal);</li>
 <li><strong>Launch the application</strong>:</li>
 </ul>
@@ -861,7 +861,7 @@
 <a id="__codelineno-3-7" name="__codelineno-3-7"></a>info: Microsoft.Hosting.Lifetime[0]
 <a id="__codelineno-3-8" name="__codelineno-3-8"></a>      Hosting environment: Development
 <a id="__codelineno-3-9" name="__codelineno-3-9"></a>info: Microsoft.Hosting.Lifetime[0]
-<a id="__codelineno-3-10" name="__codelineno-3-10"></a>      Content root path: C:\cours\rdvmedecins2-aspnetcore-mvc
+<a id="__codelineno-3-10" name="__codelineno-3-10"></a>      Content root path: C:\course\rdvmedecins2-aspnetcore-mvc
 </code></pre></div></td></tr></table></div>
 <ul>
 <li><strong>Open the address</strong> <strong><em>[http://localhost:8081]</em></strong> in a browser:</li>
@@ -873,7 +873,7 @@
 <p>If the application closes immediately with the message <strong><em>[Unable to connect to any of the specified MySQL hosts]</em></strong>, it means that <em>[MySQL]</em> has not been started; with <strong><em>[Access denied for user &#x27;root&#x27;@&#x27;localhost&#x27;]</em></strong>, the connection string password is incorrect; with <strong><em>[Unknown database &#x27;dbrdvmedecins2&#x27;]</em></strong>, the script SQL has not been executed. The application’s <strong><em>[README.md]</em></strong> file describes other scenarios. The application is stopped using <strong><em>[Ctrl-C]</em></strong> in the terminal.</p>
 <p>The last chapter of the document explains how to use the application and then discusses each of its files.</p>
 <h2 id="14-examples">1.4. <span style="color: #2e74b5">Examples</span></h2>
-<p>The examples are stored in the <strong><em>[exemples]</em></strong> folder, with one subfolder per example:</p>
+<p>The examples are stored in the <strong><em>[examples]</em></strong> folder, with one subfolder per example:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
 <span class="normal"><a href="#__codelineno-4-2">2</a></span>
 <span class="normal"><a href="#__codelineno-4-3">3</a></span>
@@ -882,18 +882,18 @@
 <span class="normal"><a href="#__codelineno-4-6">6</a></span>
 <span class="normal"><a href="#__codelineno-4-7">7</a></span>
 <span class="normal"><a href="#__codelineno-4-8">8</a></span>
-<span class="normal"><a href="#__codelineno-4-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a>exemples/
+<span class="normal"><a href="#__codelineno-4-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a>examples/
 <a id="__codelineno-4-2" name="__codelineno-4-2"></a>├── 01-structure/
-<a id="__codelineno-4-3" name="__codelineno-4-3"></a>├── 02-routage/
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a>├── 02-routing/
 <a id="__codelineno-4-4" name="__codelineno-4-4"></a>├── ...
-<a id="__codelineno-4-5" name="__codelineno-4-5"></a>├── 28-couches/
-<a id="__codelineno-4-6" name="__codelineno-4-6"></a>├── commun/
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a>├── 28-layers/
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a>├── common/
 <a id="__codelineno-4-7" name="__codelineno-4-7"></a>│   └── bootstrap/
 <a id="__codelineno-4-8" name="__codelineno-4-8"></a>├── Directory.Build.props
-<a id="__codelineno-4-9" name="__codelineno-4-9"></a>└── exemples.slnx
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a>└── examples.slnx
 </code></pre></div></td></tr></table></div>
-<p>Each example is an independent <em>[.NET]</em> <strong>project</strong> that can be compiled and run on its own. The file <strong><em>[exemples.slnx]</em></strong> is a <strong>solution</strong>: a list of all these projects. When you open the <strong><em>[exemples]</em></strong> folder in <em>[Visual Studio Code]</em>, the <em>[C# Dev Kit]</em> extension finds the solution and loads all the projects (Solution Explorer pane): You then have access to syntax highlighting, code completion, and error reporting in each file.</p>
-<p>The <strong><em>[commun/bootstrap]</em></strong> folder contains the CSS and <em>[Bootstrap]</em> frameworks, shared by the examples that format their pages (starting with Example 15).</p>
+<p>Each example is an independent <em>[.NET]</em> <strong>project</strong> that can be compiled and run on its own. The file <strong><em>[examples.slnx]</em></strong> is a <strong>solution</strong>: a list of all these projects. When you open the <strong><em>[examples]</em></strong> folder in <em>[Visual Studio Code]</em>, the <em>[C# Dev Kit]</em> extension finds the solution and loads all the projects (Solution Explorer pane): You then have access to syntax highlighting, code completion, and error reporting in each file.</p>
+<p>The <strong><em>[common/bootstrap]</em></strong> folder contains the CSS and <em>[Bootstrap]</em> frameworks, shared by the examples that format their pages (starting with Example 15).</p>
 <p>Each example has the structure of a <em>[ASP.NET Core MVC]</em> project:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
@@ -907,18 +907,18 @@
 <span class="normal"><a href="#__codelineno-5-10">10</a></span>
 <span class="normal"><a href="#__codelineno-5-11">11</a></span>
 <span class="normal"><a href="#__codelineno-5-12">12</a></span>
-<span class="normal"><a href="#__codelineno-5-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a>13-premiere-vue/
+<span class="normal"><a href="#__codelineno-5-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a>13-first-view/
 <a id="__codelineno-5-2" name="__codelineno-5-2"></a>├── Controllers/
-<a id="__codelineno-5-3" name="__codelineno-5-3"></a>│   └── VuesController.cs
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a>│   └── ViewsController.cs
 <a id="__codelineno-5-4" name="__codelineno-5-4"></a>├── Models/
-<a id="__codelineno-5-5" name="__codelineno-5-5"></a>│   └── PageModele.cs
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a>│   └── PageModel.cs
 <a id="__codelineno-5-6" name="__codelineno-5-6"></a>├── Views/
-<a id="__codelineno-5-7" name="__codelineno-5-7"></a>│   ├── Vues/
-<a id="__codelineno-5-8" name="__codelineno-5-8"></a>│   │   ├── Inconnu.cshtml
-<a id="__codelineno-5-9" name="__codelineno-5-9"></a>│   │   └── Index.cshtml
+<a id="__codelineno-5-7" name="__codelineno-5-7"></a>│   ├── Views/
+<a id="__codelineno-5-8" name="__codelineno-5-8"></a>│   │   ├── Index.cshtml
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a>│   │   └── Unknown.cshtml
 <a id="__codelineno-5-10" name="__codelineno-5-10"></a>│   └── _ViewImports.cshtml
 <a id="__codelineno-5-11" name="__codelineno-5-11"></a>├── appsettings.json
-<a id="__codelineno-5-12" name="__codelineno-5-12"></a>├── Exemple13.csproj
+<a id="__codelineno-5-12" name="__codelineno-5-12"></a>├── Example13.csproj
 <a id="__codelineno-5-13" name="__codelineno-5-13"></a>└── Program.cs
 </code></pre></div></td></tr></table></div>
 <ul>
@@ -927,7 +927,7 @@
 <li><strong><em>[Models]</em></strong>: the classes that describe the models (actions and views);</li>
 <li><strong><em>[Views]</em></strong>: the views <em>[Razor]</em> (starting in Chapter 4);</li>
 <li><strong><em>[appsettings.json]</em></strong>: the application configuration (logging levels, and later, database connection, etc.);</li>
-<li><strong><em>[Exemple13.csproj]</em></strong>: the project file, which describes how to compile the application.</li>
+<li><strong><em>[Example13.csproj]</em></strong>: the project file, which describes how to compile the application.</li>
 </ul>
 <p>To run an example, open a terminal in its folder (in <em>[Visual Studio Code]</em>: right-click the example folder, then select “Open in the built-in terminal”) and type:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a>dotnet run
@@ -935,10 +935,10 @@
 <p><strong><em>[dotnet run]</em></strong> compiles the project (in its <strong><em>[bin]</em></strong> folder), then runs the application. With <strong><em>[dotnet watch]</em></strong>, the code is recompiled and the application is restarted whenever a file is modified. <strong><em>[.cs]</em></strong> or <strong><em>[.cshtml]</em></strong>:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a>dotnet watch
 </code></pre></div></td></tr></table></div>
-<p>All examples listen on port 5000, the default port for <em>[ASP.NET Core]</em>: only one can be running at a time. Stop the server using <strong><em>[Ctrl-C]</em></strong> in the terminal. You can also compile all the examples at once from the <strong><em>[exemples]</em></strong> folder to verify that the installation is complete:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a>dotnet build exemples.slnx
+<p>All examples listen on port 5000, the default port for <em>[ASP.NET Core]</em>: only one can be running at a time. Stop the server using <strong><em>[Ctrl-C]</em></strong> in the terminal. You can also compile all the examples at once from the <strong><em>[examples]</em></strong> folder to verify that the installation is complete:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a>dotnet build examples.slnx
 </code></pre></div></td></tr></table></div>
-<p>The project file for an example is reduced to a single line. For example, <strong><em>[01-structure/Exemple01.csproj]</em></strong>:</p>
+<p>The project file for an example is reduced to a single line. For example, <strong><em>[01-structure/Example01.csproj]</em></strong>:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
 <span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="nt">&lt;Project</span><span class="w"> </span><span class="na">Sdk=</span><span class="s">"Microsoft.NET.Sdk.Web"</span><span class="nt">&gt;</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="nt">&lt;/Project&gt;</span>
@@ -946,7 +946,7 @@
 <ul>
 <li>Line 1: <strong><em>[Microsoft.NET.Sdk.Web]</em></strong> is the SDK for web applications. It alone provides the entire <em>[ASP.NET Core]</em> framework: controllers, views, configuration, web server...</li>
 </ul>
-<p>The settings common to all examples are written only once, in the <strong><em>[exemples/Directory.Build.props]</em></strong> file, which the compiler automatically reads for any project located in the <strong><em>[exemples]</em></strong> folder:</p>
+<p>The settings common to all examples are written only once, in the <strong><em>[examples/Directory.Build.props]</em></strong> file, which the compiler automatically reads for any project located in the <strong><em>[examples]</em></strong> folder:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
@@ -962,17 +962,17 @@
 <span class="normal"><a href="#__codelineno-10-13">13</a></span>
 <span class="normal"><a href="#__codelineno-10-14">14</a></span>
 <span class="normal"><a href="#__codelineno-10-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="cm">&lt;!--</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="cm">  Directory.Build.props : lu automatiquement par TOUS les projets situés</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="cm">  sous ce dossier. Les réglages communs aux exemples sont donc écrits une</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="cm">  seule fois, ici, au lieu d'être répétés dans chaque fichier .csproj.</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="cm">  Directory.Build.props: read automatically by ALL the projects located</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="cm">  under this folder. The settings shared by the examples are therefore written</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="cm">  only once, here, instead of being repeated in every .csproj file.</span>
 <a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="cm">--&gt;</span>
 <a id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="nt">&lt;Project&gt;</span>
 <a id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="w">  </span><span class="nt">&lt;PropertyGroup&gt;</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="w">     </span><span class="cm">&lt;!-- .NET 10, version LTS (long-term support) --&gt;</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="w">    </span><span class="cm">&lt;!-- .NET 10, LTS version (long-term support) --&gt;</span>
 <a id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="w">    </span><span class="nt">&lt;TargetFramework&gt;</span>net10.0<span class="nt">&lt;/TargetFramework&gt;</span>
-<a id="__codelineno-10-10" name="__codelineno-10-10"></a><span class="w">     </span><span class="cm">&lt;!-- the compiler flags risks associated with NullReferenceException --&gt;</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10"></a><span class="w">    </span><span class="cm">&lt;!-- the compiler reports the risks of NullReferenceException --&gt;</span>
 <a id="__codelineno-10-11" name="__codelineno-10-11"></a><span class="w">    </span><span class="nt">&lt;Nullable&gt;</span>enable<span class="nt">&lt;/Nullable&gt;</span>
-<a id="__codelineno-10-12" name="__codelineno-10-12"></a><span class="w">     </span><span class="cm">&lt;!-- using implicit types: System, System.Linq, System.Threading.Tasks... --&gt;</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12"></a><span class="w">    </span><span class="cm">&lt;!-- implicit usings: System, System.Linq, System.Threading.Tasks... --&gt;</span>
 <a id="__codelineno-10-13" name="__codelineno-10-13"></a><span class="w">    </span><span class="nt">&lt;ImplicitUsings&gt;</span>enable<span class="nt">&lt;/ImplicitUsings&gt;</span>
 <a id="__codelineno-10-14" name="__codelineno-10-14"></a><span class="w">  </span><span class="nt">&lt;/PropertyGroup&gt;</span>
 <a id="__codelineno-10-15" name="__codelineno-10-15"></a><span class="nt">&lt;/Project&gt;</span>

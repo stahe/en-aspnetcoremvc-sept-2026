@@ -736,7 +736,7 @@
 <table class="odt-table" style="border-collapse: collapse; width: 100%; margin-bottom: 1em;"><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0"><b>Registration</b></div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0"><b>Lifetime</b></div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0"><b>An instance...</b></div></td></tr><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">AddSingleton</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">application</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">for the entire lifetime of the application, shared by all requests</div></td></tr><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">AddScoped</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">request</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">per request HTTP, shared by all who request it during that request</div></td></tr><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">AddTransient</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">none</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">For each injection: two requests, two instances</div></td></tr></table>
 
 <h2 id="61-example-23-three-scopes">6.1. <span style="color: #2e74b5">Example 23: three scopes</span></h2>
-<p>The file <strong><em>[Services/CompteurService.cs]</em></strong>:</p>
+<p>The file <strong><em>[Services/CounterService.cs]</em></strong>:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
@@ -748,24 +748,24 @@
 <span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-0-10">10</a></span>
 <span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Exemple23.Services</span><span class="p">;</span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example23.Services</span><span class="p">;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1">// scope APPLICATION (AddSingleton): a single instance, shared by</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1">// TOUTES requests from TOUS users</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">CompteurService</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1">// APPLICATION scope (AddSingleton): a single instance, shared by</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1">// ALL the requests of ALL the users</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">CounterService</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="p">{</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">total</span><span class="p">;</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">     </span><span class="c1">// multiple requests can run EN MÊME TEMPS: Interlocked</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">     </span><span class="c1">// ensures that two simultaneous increments are not lost</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">Incrementer</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Interlocked</span><span class="p">.</span><span class="n">Increment</span><span class="p">(</span><span class="k">ref</span><span class="w"> </span><span class="n">total</span><span class="p">);</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">    </span><span class="c1">// several requests can run AT THE SAME TIME: Interlocked</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="c1">// guarantees that two simultaneous increments are not lost</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">Increment</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Interlocked</span><span class="p">.</span><span class="n">Increment</span><span class="p">(</span><span class="k">ref</span><span class="w"> </span><span class="n">total</span><span class="p">);</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <ul>
 <li>Line 7: The service will be a singleton (see <strong><em>[Program.cs]</em></strong>): its field <strong><em>[total]</em></strong> therefore has application scope;</li>
 <li>line 11: a web server processes multiple requests <strong>simultaneously</strong>, across multiple threads (<em>[threads]</em>). If two requests execute <strong><em>[total++]</em></strong> at the same time, they may both read the same value, and an increment is lost. <strong><em>[Interlocked.Increment]</em></strong> performs the read, addition, and write in a single, indivisible operation. A singleton service must always be wary of such simultaneous accesses.</li>
 </ul>
-<p>The file <strong><em>[Services/RequeteService.cs]</em></strong>:</p>
+<p>The file <strong><em>[Services/RequestService.cs]</em></strong>:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
@@ -775,22 +775,22 @@
 <span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
 <span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-1-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Exemple23.Services</span><span class="p">;</span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example23.Services</span><span class="p">;</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="c1">// scope REQUÊTE (AddScoped): one NOUVELLE instance for each HTTP query,</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c1">// shared by all who request it PENDANT this request</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RequeteService</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="c1">// REQUEST scope (AddScoped): a NEW instance for each HTTP request,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c1">// shared by all those who ask for it DURING this request</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RequestService</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="p">{</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">instancesCreees</span><span class="p">;</span><span class="w"> </span><span class="c1">// static: a counter shared by all instances</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">createdInstances</span><span class="p">;</span><span class="w"> </span><span class="c1">// static: a counter shared by all the instances</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8"></a>
-<a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Numero</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Interlocked</span><span class="p">.</span><span class="n">Increment</span><span class="p">(</span><span class="k">ref</span><span class="w"> </span><span class="n">instancesCreees</span><span class="p">);</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Number</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Interlocked</span><span class="p">.</span><span class="n">Increment</span><span class="p">(</span><span class="k">ref</span><span class="w"> </span><span class="n">createdInstances</span><span class="p">);</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <ul>
 <li>line 7: A field named <strong><em>[static]</em></strong> belongs to the class, not to an instance; it is shared by all instances. It counts the number of instances created;</li>
 <li>line 9: each instance is assigned a number upon creation. The service will have request-level scope: the number changes with each request.</li>
 </ul>
-<p>The file <strong><em>[Services/OutilService.cs]</em></strong>:</p>
+<p>The file <strong><em>[Services/ToolService.cs]</em></strong>:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
@@ -800,15 +800,15 @@
 <span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
 <span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-2-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Exemple23.Services</span><span class="p">;</span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example23.Services</span><span class="p">;</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1">// scope TRANSIENT (AddTransient): an instance at NOUVELLE at the time of injection,</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c1">// even within a single request</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">OutilService</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1">// TRANSIENT scope (AddTransient): a NEW instance for EACH injection,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c1">// even during a single request</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ToolService</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="p">{</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">instancesCreees</span><span class="p">;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">createdInstances</span><span class="p">;</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8"></a>
-<a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Numero</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Interlocked</span><span class="p">.</span><span class="n">Increment</span><span class="p">(</span><span class="k">ref</span><span class="w"> </span><span class="n">instancesCreees</span><span class="p">);</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Number</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Interlocked</span><span class="p">.</span><span class="n">Increment</span><span class="p">(</span><span class="k">ref</span><span class="w"> </span><span class="n">createdInstances</span><span class="p">);</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <p>The same instance counter, for a <strong><em>[transient]</em></strong> service.</p>
@@ -844,30 +844,30 @@
 <span class="normal"><a href="#__codelineno-3-29">29</a></span>
 <span class="normal"><a href="#__codelineno-3-30">30</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">System.Text.Encodings.Web</span><span class="p">;</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">System.Text.Unicode</span><span class="p">;</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="k">using</span><span class="w"> </span><span class="nn">Exemple23.Services</span><span class="p">;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example23.Services</span><span class="p">;</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.Extensions.FileProviders</span><span class="p">;</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5"></a>
 <a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="kt">var</span><span class="w"> </span><span class="n">builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WebApplication</span><span class="p">.</span><span class="n">CreateBuilder</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddControllersWithViews</span><span class="p">();</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddSingleton</span><span class="p">(</span><span class="n">HtmlEncoder</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="n">UnicodeRanges</span><span class="p">.</span><span class="n">All</span><span class="p">));</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="c1">// across the three lifetimes of a service</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddSingleton</span><span class="o">&lt;</span><span class="n">CompteurService</span><span class="o">&gt;</span><span class="p">();</span><span class="w"> </span><span class="c1">// one instance for the entire application</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddScoped</span><span class="o">&lt;</span><span class="n">RequeteService</span><span class="o">&gt;</span><span class="p">();</span><span class="w">     </span><span class="c1">// one instance per request</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddTransient</span><span class="o">&lt;</span><span class="n">OutilService</span><span class="o">&gt;</span><span class="p">();</span><span class="w">    </span><span class="c1">// one instance per injection</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="c1">// the three lifetimes of a service</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddSingleton</span><span class="o">&lt;</span><span class="n">CounterService</span><span class="o">&gt;</span><span class="p">();</span><span class="w"> </span><span class="c1">// one instance for the whole application</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddScoped</span><span class="o">&lt;</span><span class="n">RequestService</span><span class="o">&gt;</span><span class="p">();</span><span class="w">    </span><span class="c1">// one instance per request</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddTransient</span><span class="o">&lt;</span><span class="n">ToolService</span><span class="o">&gt;</span><span class="p">();</span><span class="w">    </span><span class="c1">// one instance per injection</span>
 <a id="__codelineno-3-13" name="__codelineno-3-13"></a>
 <a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="kt">var</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">Build</span><span class="p">();</span>
 <a id="__codelineno-3-15" name="__codelineno-3-15"></a>
 <a id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="n">app</span><span class="p">.</span><span class="n">UseStaticFiles</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">StaticFileOptions</span>
 <a id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="p">{</span>
-<a id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="w">    </span><span class="n">FileProvider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PhysicalFileProvider</span><span class="p">(</span><span class="n">Path</span><span class="p">.</span><span class="n">GetFullPath</span><span class="p">(</span><span class="n">Path</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">builder</span><span class="p">.</span><span class="n">Environment</span><span class="p">.</span><span class="n">ContentRootPath</span><span class="p">,</span><span class="w"> </span><span class="s">".."</span><span class="p">,</span><span class="w"> </span><span class="s">"commun"</span><span class="p">,</span><span class="w"> </span><span class="s">"bootstrap"</span><span class="p">))),</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="w">    </span><span class="n">FileProvider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PhysicalFileProvider</span><span class="p">(</span><span class="n">Path</span><span class="p">.</span><span class="n">GetFullPath</span><span class="p">(</span><span class="n">Path</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">builder</span><span class="p">.</span><span class="n">Environment</span><span class="p">.</span><span class="n">ContentRootPath</span><span class="p">,</span><span class="w"> </span><span class="s">".."</span><span class="p">,</span><span class="w"> </span><span class="s">"common"</span><span class="p">,</span><span class="w"> </span><span class="s">"bootstrap"</span><span class="p">))),</span>
 <a id="__codelineno-3-19" name="__codelineno-3-19"></a><span class="w">    </span><span class="n">RequestPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"/bootstrap"</span><span class="p">,</span>
 <a id="__codelineno-3-20" name="__codelineno-3-20"></a><span class="p">});</span>
 <a id="__codelineno-3-21" name="__codelineno-3-21"></a>
-<a id="__codelineno-3-22" name="__codelineno-3-22"></a><span class="c1">// Scope REQUÊTE: HttpContext.Items is created and destroyed with the request</span>
-<a id="__codelineno-3-23" name="__codelineno-3-23"></a><span class="n">app</span><span class="p">.</span><span class="n">Use</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="n">contexte</span><span class="p">,</span><span class="w"> </span><span class="n">suite</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22"></a><span class="c1">// REQUEST scope: HttpContext.Items is born and dies with the request</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23"></a><span class="n">app</span><span class="p">.</span><span class="n">Use</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">next</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
 <a id="__codelineno-3-24" name="__codelineno-3-24"></a><span class="p">{</span>
-<a id="__codelineno-3-25" name="__codelineno-3-25"></a><span class="w">    </span><span class="n">contexte</span><span class="p">.</span><span class="n">Items</span><span class="p">[</span><span class="s">"debut"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s">"HH:mm:ss.fff"</span><span class="p">);</span>
-<a id="__codelineno-3-26" name="__codelineno-3-26"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nf">suite</span><span class="p">(</span><span class="n">contexte</span><span class="p">);</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25"></a><span class="w">    </span><span class="n">context</span><span class="p">.</span><span class="n">Items</span><span class="p">[</span><span class="s">"start"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s">"HH:mm:ss.fff"</span><span class="p">);</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
 <a id="__codelineno-3-27" name="__codelineno-3-27"></a><span class="p">});</span>
 <a id="__codelineno-3-28" name="__codelineno-3-28"></a>
 <a id="__codelineno-3-29" name="__codelineno-3-29"></a><span class="n">app</span><span class="p">.</span><span class="n">MapControllers</span><span class="p">();</span>
@@ -877,7 +877,7 @@
 <li>Lines 10–12: the three lifetimes;</li>
 <li>Lines 23–26: A middleware stores the request&#x27;s reception time in <code>***[HttpContext.Items]</code><strong><em>, a dictionary that is created and destroyed along with the request. Everything that processes the request (filters, controller, view) can read from and write to it. This is the equivalent of </em></strong>[res.locals]*<em><em> for </em>[Express]</em>.</li>
 </ul>
-<p>The file <strong><em>[Controllers/PorteesController.cs]</em></strong>:</p>
+<p>The file <strong><em>[Controllers/ScopesController.cs]</em></strong>:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
@@ -898,34 +898,34 @@
 <span class="normal"><a href="#__codelineno-4-18">18</a></span>
 <span class="normal"><a href="#__codelineno-4-19">19</a></span>
 <span class="normal"><a href="#__codelineno-4-20">20</a></span>
-<span class="normal"><a href="#__codelineno-4-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Exemple23.Services</span><span class="p">;</span>
+<span class="normal"><a href="#__codelineno-4-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example23.Services</span><span class="p">;</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Exemple23.Controllers</span><span class="p">;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example23.Controllers</span><span class="p">;</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5"></a>
-<a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="k">public</span><span class="w"> </span><span class="k">record</span><span class="w"> </span><span class="nf">PorteesModele</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">Total</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Instance</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Outil</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">MesVisites</span><span class="p">);</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="k">public</span><span class="w"> </span><span class="k">record</span><span class="w"> </span><span class="nf">ScopesModel</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">Total</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Instance</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Tool</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">MyVisits</span><span class="p">);</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7"></a>
-<a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nf">PorteesController</span><span class="p">(</span><span class="n">CompteurService</span><span class="w"> </span><span class="n">compteur</span><span class="p">,</span><span class="w"> </span><span class="n">RequeteService</span><span class="w"> </span><span class="n">requete</span><span class="p">,</span><span class="w"> </span><span class="n">OutilService</span><span class="w"> </span><span class="n">outil</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nf">ScopesController</span><span class="p">(</span><span class="n">CounterService</span><span class="w"> </span><span class="n">counter</span><span class="p">,</span><span class="w"> </span><span class="n">RequestService</span><span class="w"> </span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">ToolService</span><span class="w"> </span><span class="n">tool</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="p">{</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="w">    </span><span class="na">[HttpGet("/")]</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">Portees</span><span class="p">()</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">Scopes</span><span class="p">()</span>
 <a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="w">         </span><span class="c1">// scope CLIENT: data stored by NAVIGATEUR (cookie),</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="w">         </span><span class="c1">// sent back to the server with every request</span>
-<a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="w">        </span><span class="kt">int</span><span class="p">.</span><span class="n">TryParse</span><span class="p">(</span><span class="n">Request</span><span class="p">.</span><span class="n">Cookies</span><span class="p">[</span><span class="s">"mesVisites"</span><span class="p">],</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">var</span><span class="w"> </span><span class="n">mesVisites</span><span class="p">);</span>
-<a id="__codelineno-4-16" name="__codelineno-4-16"></a><span class="w">        </span><span class="n">mesVisites</span><span class="o">++</span><span class="p">;</span>
-<a id="__codelineno-4-17" name="__codelineno-4-17"></a><span class="w">        </span><span class="n">Response</span><span class="p">.</span><span class="n">Cookies</span><span class="p">.</span><span class="n">Append</span><span class="p">(</span><span class="s">"mesVisites"</span><span class="p">,</span><span class="w"> </span><span class="n">mesVisites</span><span class="p">.</span><span class="n">ToString</span><span class="p">(),</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="w">        </span><span class="c1">// CLIENT scope: a piece of data kept by the BROWSER (cookie),</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="w">        </span><span class="c1">// sent back to the server with each request</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="w">        </span><span class="kt">int</span><span class="p">.</span><span class="n">TryParse</span><span class="p">(</span><span class="n">Request</span><span class="p">.</span><span class="n">Cookies</span><span class="p">[</span><span class="s">"myVisits"</span><span class="p">],</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">var</span><span class="w"> </span><span class="n">myVisits</span><span class="p">);</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16"></a><span class="w">        </span><span class="n">myVisits</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17"></a><span class="w">        </span><span class="n">Response</span><span class="p">.</span><span class="n">Cookies</span><span class="p">.</span><span class="n">Append</span><span class="p">(</span><span class="s">"myVisits"</span><span class="p">,</span><span class="w"> </span><span class="n">myVisits</span><span class="p">.</span><span class="n">ToString</span><span class="p">(),</span>
 <a id="__codelineno-4-18" name="__codelineno-4-18"></a><span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">CookieOptions</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">HttpOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w"> </span><span class="n">SameSite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SameSiteMode</span><span class="p">.</span><span class="n">Lax</span><span class="w"> </span><span class="p">});</span>
-<a id="__codelineno-4-19" name="__codelineno-4-19"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">View</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">PorteesModele</span><span class="p">(</span><span class="n">compteur</span><span class="p">.</span><span class="n">Incrementer</span><span class="p">(),</span><span class="w"> </span><span class="n">requete</span><span class="p">.</span><span class="n">Numero</span><span class="p">,</span><span class="w"> </span><span class="n">outil</span><span class="p">.</span><span class="n">Numero</span><span class="p">,</span><span class="w"> </span><span class="n">mesVisites</span><span class="p">));</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">View</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ScopesModel</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">Increment</span><span class="p">(),</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="n">Number</span><span class="p">,</span><span class="w"> </span><span class="n">tool</span><span class="p">.</span><span class="n">Number</span><span class="p">,</span><span class="w"> </span><span class="n">myVisits</span><span class="p">));</span>
 <a id="__codelineno-4-20" name="__codelineno-4-20"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-4-21" name="__codelineno-4-21"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <ul>
 <li>line 8: the three services are injected;</li>
-<li>lines 15–18: the client scope: a counter stored in a cookie. <strong><em>[Request.Cookies[&quot;mesVisites&quot;]]</em></strong> reads the cookie sent by the browser (<strong><em>[null]</em></strong> on the first visit). <strong><em>[int.TryParse]</em></strong> converts it to an integer; if the conversion fails, <strong><em>[mesVisites]</em></strong> is set to 0. The action increments it and resets the cookie;</li>
+<li>lines 15–18: the client scope: a counter stored in a cookie. <strong><em>[Request.Cookies[&quot;myVisits&quot;]]</em></strong> reads the cookie sent by the browser (<strong><em>[null]</em></strong> on the first visit). <strong><em>[int.TryParse]</em></strong> converts it to an integer; if the conversion fails, <strong><em>[myVisits]</em></strong> is set to 0. The action increments it and resets the cookie;</li>
 <li>line 19: the values are passed to the view.</li>
 </ul>
-<p>The file <strong><em>[Views/Portees/Portees.cshtml]</em></strong>:</p>
+<p>The file <strong><em>[Views/Scopes/Scopes.cshtml]</em></strong>:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
@@ -937,21 +937,21 @@
 <span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-5-10">10</a></span>
 <span class="normal"><a href="#__codelineno-5-11">11</a></span>
-<span class="normal"><a href="#__codelineno-5-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a>@model PorteesModele
-<a id="__codelineno-5-2" name="__codelineno-5-2"></a>@* @inject : la vue demande elle aussi les services, au cours de la MÊME requête *@
-<a id="__codelineno-5-3" name="__codelineno-5-3"></a>@inject RequeteService RequeteDeLaVue
-<a id="__codelineno-5-4" name="__codelineno-5-4"></a>@inject OutilService OutilDeLaVue
-<a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"h3"</span><span class="p">&gt;</span>Les portées des données<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a>@model ScopesModel
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a>@* @inject: the view also asks for the services, during the SAME request *@
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a>@inject RequestService RequestOfTheView
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a>@inject ToolService ToolOfTheView
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"h3"</span><span class="p">&gt;</span>The scopes of data<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
 <a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>application : @Model.Total visite(s) du site, tous navigateurs confondus<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>requête : instance n° @Model.Instance de RequeteService (n° @RequeteDeLaVue.Numero dans la vue),
-<a id="__codelineno-5-9" name="__codelineno-5-9"></a>    requête reçue à @Context.Items["debut"]<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>transient : instance n° @Model.Outil de OutilService (n° @OutilDeLaVue.Numero dans la vue)<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>client : @Model.MesVisites visite(s) de ce navigateur<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>application: @Model.Total visit(s) to the site, all browsers combined<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>request: instance no. @Model.Instance of RequestService (no. @RequestOfTheView.Number in the view),
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a>    request received at @Context.Items["start"]<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>transient: instance no. @Model.Tool of ToolService (no. @ToolOfTheView.Number in the view)<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>client: @Model.MyVisits visit(s) from this browser<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
 <a id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
 </code></pre></div></td></tr></table></div>
 <ul>
-<li>lines 3–4: the <strong><em>[@inject Type Nom]</em></strong> directive requests a service from the dependency injector and stores it in a view property. The view is executed during the same request as the action: we will be able to compare the instances received by the controller and by the view;</li>
+<li>lines 3–4: the <strong><em>[@inject Type Name]</em></strong> directive requests a service from the dependency injector and stores it in a view property. The view is executed during the same request as the action: we will be able to compare the instances received by the controller and by the view;</li>
 <li>Line 9: The request-scope value, set by the middleware.</li>
 </ul>
 <p>A page, at URL<a href="http://localhost:5000/"><u><span style="color: #0563c1"> http://localhost:5000/</span></u></a>:</p>
@@ -987,39 +987,39 @@
 <span class="normal"><a href="#__codelineno-7-20">20</a></span>
 <span class="normal"><a href="#__codelineno-7-21">21</a></span>
 <span class="normal"><a href="#__codelineno-7-22">22</a></span>
-<span class="normal"><a href="#__codelineno-7-23">23</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a>navigateur A :
-<a id="__codelineno-7-2" name="__codelineno-7-2"></a>application : 1 visite(s) du site, tous navigateurs confondus
-<a id="__codelineno-7-3" name="__codelineno-7-3"></a>requête : instance n° 1 de RequeteService (n° 1 dans la vue), requête reçue à 12:19:46.574
-<a id="__codelineno-7-4" name="__codelineno-7-4"></a>transient : instance n° 1 de OutilService (n° 2 dans la vue)
-<a id="__codelineno-7-5" name="__codelineno-7-5"></a>client : 1 visite(s) de ce navigateur
+<span class="normal"><a href="#__codelineno-7-23">23</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a>browser A:
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a>application: 1 visit(s) to the site, all browsers combined
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a>request: instance no. 1 of RequestService (no. 1 in the view), request received at 12:19:46.574
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a>transient: instance no. 1 of ToolService (no. 2 in the view)
+<a id="__codelineno-7-5" name="__codelineno-7-5"></a>client: 1 visit(s) from this browser
 <a id="__codelineno-7-6" name="__codelineno-7-6"></a>
-<a id="__codelineno-7-7" name="__codelineno-7-7"></a>navigateur A :
-<a id="__codelineno-7-8" name="__codelineno-7-8"></a>application : 2 visite(s) du site, tous navigateurs confondus
-<a id="__codelineno-7-9" name="__codelineno-7-9"></a>requête : instance n° 2 de RequeteService (n° 2 dans la vue), requête reçue à 12:19:46.671
-<a id="__codelineno-7-10" name="__codelineno-7-10"></a>transient : instance n° 3 de OutilService (n° 4 dans la vue)
-<a id="__codelineno-7-11" name="__codelineno-7-11"></a>client : 2 visite(s) de ce navigateur
+<a id="__codelineno-7-7" name="__codelineno-7-7"></a>browser A:
+<a id="__codelineno-7-8" name="__codelineno-7-8"></a>application: 2 visit(s) to the site, all browsers combined
+<a id="__codelineno-7-9" name="__codelineno-7-9"></a>request: instance no. 2 of RequestService (no. 2 in the view), request received at 12:19:46.671
+<a id="__codelineno-7-10" name="__codelineno-7-10"></a>transient: instance no. 3 of ToolService (no. 4 in the view)
+<a id="__codelineno-7-11" name="__codelineno-7-11"></a>client: 2 visit(s) from this browser
 <a id="__codelineno-7-12" name="__codelineno-7-12"></a>
-<a id="__codelineno-7-13" name="__codelineno-7-13"></a>navigateur B :
-<a id="__codelineno-7-14" name="__codelineno-7-14"></a>application : 3 visite(s) du site, tous navigateurs confondus
-<a id="__codelineno-7-15" name="__codelineno-7-15"></a>requête : instance n° 3 de RequeteService (n° 3 dans la vue), requête reçue à 12:19:46.687
-<a id="__codelineno-7-16" name="__codelineno-7-16"></a>transient : instance n° 5 de OutilService (n° 6 dans la vue)
-<a id="__codelineno-7-17" name="__codelineno-7-17"></a>client : 1 visite(s) de ce navigateur
+<a id="__codelineno-7-13" name="__codelineno-7-13"></a>browser B:
+<a id="__codelineno-7-14" name="__codelineno-7-14"></a>application: 3 visit(s) to the site, all browsers combined
+<a id="__codelineno-7-15" name="__codelineno-7-15"></a>request: instance no. 3 of RequestService (no. 3 in the view), request received at 12:19:46.687
+<a id="__codelineno-7-16" name="__codelineno-7-16"></a>transient: instance no. 5 of ToolService (no. 6 in the view)
+<a id="__codelineno-7-17" name="__codelineno-7-17"></a>client: 1 visit(s) from this browser
 <a id="__codelineno-7-18" name="__codelineno-7-18"></a>
-<a id="__codelineno-7-19" name="__codelineno-7-19"></a>navigateur A :
-<a id="__codelineno-7-20" name="__codelineno-7-20"></a>application : 4 visite(s) du site, tous navigateurs confondus
-<a id="__codelineno-7-21" name="__codelineno-7-21"></a>requête : instance n° 4 de RequeteService (n° 4 dans la vue), requête reçue à 12:19:46.696
-<a id="__codelineno-7-22" name="__codelineno-7-22"></a>transient : instance n° 7 de OutilService (n° 8 dans la vue)
-<a id="__codelineno-7-23" name="__codelineno-7-23"></a>client : 3 visite(s) de ce navigateur
+<a id="__codelineno-7-19" name="__codelineno-7-19"></a>browser A:
+<a id="__codelineno-7-20" name="__codelineno-7-20"></a>application: 4 visit(s) to the site, all browsers combined
+<a id="__codelineno-7-21" name="__codelineno-7-21"></a>request: instance no. 4 of RequestService (no. 4 in the view), request received at 12:19:46.696
+<a id="__codelineno-7-22" name="__codelineno-7-22"></a>transient: instance no. 7 of ToolService (no. 8 in the view)
+<a id="__codelineno-7-23" name="__codelineno-7-23"></a>client: 3 visit(s) from this browser
 </code></pre></div></td></tr></table></div>
 <p>(only the items in the list are shown). We observe that:</p>
 <ul>
 <li>the application counter counts all visits: 1, 2, 3, 4;</li>
-<li>each request has its own instance of <strong><em>[RequeteService]</em></strong>: 1, 2, 3, 4. During a request, the controller and the view receive the <strong>same</strong> instance;</li>
-<li>each injection of <strong><em>[OutilService]</em></strong> creates an instance: the controller and the view receive two different ones, and each request creates two new ones;</li>
+<li>each request has its own instance of <strong><em>[RequestService]</em></strong>: 1, 2, 3, 4. During a request, the controller and the view receive the <strong>same</strong> instance;</li>
+<li>each injection of <strong><em>[ToolService]</em></strong> creates an instance: the controller and the view receive two different ones, and each request creates two new ones;</li>
 <li>the client counter is specific to each browser: A has 3 visits, B has 1.</li>
 </ul>
 <p>The cookie is controlled by the client, which can send whatever value it wants:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a>curl -i -b "mesVisites=41" http://localhost:5000/
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a>curl -i -b "myVisits=41" http://localhost:5000/
 </code></pre></div></td></tr></table></div>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
@@ -1047,24 +1047,24 @@
 <span class="normal"><a href="#__codelineno-9-24">24</a></span>
 <span class="normal"><a href="#__codelineno-9-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a>HTTP/1.1 200 OK
 <a id="__codelineno-9-2" name="__codelineno-9-2"></a>Content-Type: text/html; charset=utf-8
-<a id="__codelineno-9-3" name="__codelineno-9-3"></a>Set-Cookie: mesVisites=42; path=/; samesite=lax; httponly
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a>Set-Cookie: myVisits=42; path=/; samesite=lax; httponly
 <a id="__codelineno-9-4" name="__codelineno-9-4"></a>
 <a id="__codelineno-9-5" name="__codelineno-9-5"></a>&lt;!doctype html&gt;
-<a id="__codelineno-9-6" name="__codelineno-9-6"></a>&lt;html lang="fr"&gt;
+<a id="__codelineno-9-6" name="__codelineno-9-6"></a>&lt;html lang="en"&gt;
 <a id="__codelineno-9-7" name="__codelineno-9-7"></a>&lt;head&gt;
 <a id="__codelineno-9-8" name="__codelineno-9-8"></a>  &lt;meta charset="utf-8"&gt;
-<a id="__codelineno-9-9" name="__codelineno-9-9"></a>  &lt;title&gt;Portées&lt;/title&gt;
+<a id="__codelineno-9-9" name="__codelineno-9-9"></a>  &lt;title&gt;Scopes&lt;/title&gt;
 <a id="__codelineno-9-10" name="__codelineno-9-10"></a>  &lt;link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"&gt;
 <a id="__codelineno-9-11" name="__codelineno-9-11"></a>&lt;/head&gt;
 <a id="__codelineno-9-12" name="__codelineno-9-12"></a>&lt;body&gt;
 <a id="__codelineno-9-13" name="__codelineno-9-13"></a>  &lt;div class="container py-3"&gt;
-<a id="__codelineno-9-14" name="__codelineno-9-14"></a>    &lt;h1 class="h3"&gt;Les portées des données&lt;/h1&gt;
+<a id="__codelineno-9-14" name="__codelineno-9-14"></a>    &lt;h1 class="h3"&gt;The scopes of data&lt;/h1&gt;
 <a id="__codelineno-9-15" name="__codelineno-9-15"></a>&lt;ul&gt;
-<a id="__codelineno-9-16" name="__codelineno-9-16"></a>  &lt;li&gt;application : 6 visite(s) du site, tous navigateurs confondus&lt;/li&gt;
-<a id="__codelineno-9-17" name="__codelineno-9-17"></a>  &lt;li&gt;requête : instance n° 6 de RequeteService (n° 6 dans la vue),
-<a id="__codelineno-9-18" name="__codelineno-9-18"></a>    requête reçue à 12:19:47.374&lt;/li&gt;
-<a id="__codelineno-9-19" name="__codelineno-9-19"></a>  &lt;li&gt;transient : instance n° 11 de OutilService (n° 12 dans la vue)&lt;/li&gt;
-<a id="__codelineno-9-20" name="__codelineno-9-20"></a>  &lt;li&gt;client : 42 visite(s) de ce navigateur&lt;/li&gt;
+<a id="__codelineno-9-16" name="__codelineno-9-16"></a>  &lt;li&gt;application: 6 visit(s) to the site, all browsers combined&lt;/li&gt;
+<a id="__codelineno-9-17" name="__codelineno-9-17"></a>  &lt;li&gt;request: instance no. 6 of RequestService (no. 6 in the view),
+<a id="__codelineno-9-18" name="__codelineno-9-18"></a>    request received at 12:19:47.374&lt;/li&gt;
+<a id="__codelineno-9-19" name="__codelineno-9-19"></a>  &lt;li&gt;transient: instance no. 11 of ToolService (no. 12 in the view)&lt;/li&gt;
+<a id="__codelineno-9-20" name="__codelineno-9-20"></a>  &lt;li&gt;client: 42 visit(s) from this browser&lt;/li&gt;
 <a id="__codelineno-9-21" name="__codelineno-9-21"></a>&lt;/ul&gt;
 <a id="__codelineno-9-22" name="__codelineno-9-22"></a>
 <a id="__codelineno-9-23" name="__codelineno-9-23"></a>  &lt;/div&gt;
@@ -1073,7 +1073,7 @@
 </code></pre></div></td></tr></table></div>
 <p>For a visit counter, this is irrelevant. For sensitive data (the user’s identity, their role), the server must be able to detect tampering: Chapter 8 shows how.</p>
 <p>A rule follows from these lifetimes: a service must not depend on a service with a shorter lifetime. A singleton that receives a service such as <strong><em>[Scoped]</em></strong> would retain it indefinitely, well beyond the request for which it was created. <em>[ASP.NET Core]</em> checks for compliance with this rule at startup, in development mode, and refuses to start if the rule is violated. In the case study:</p>
-<table class="odt-table" style="border-collapse: collapse; width: 100%; margin-bottom: 1em;"><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0"><b>Scope</b></div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0"><b>Data</b></div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0"><b>Where?</b></div></td></tr><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">application</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">lists of doctors and clients, dictionaries, pending CAPTCHAs, attempt counters</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">Singleton services (<i><b>[CacheListes]</b></i>, <i><b>[Traducteur]</b></i>, <i><b>[CaptchaService]</b></i>...)</div></td></tr><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">Query</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">database access (<i><b>[DbContext]</b></i>), repositories, business layer, common view model; logged-in user</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0"><i><b>[Scoped]</b></i> services (<i><b>[RdvMedecinsDbContext]</b></i>, <i><b>[MetierService]</b></i>, <i><b>[ApplicationModel]</b></i>...) ; <i><b>[HttpContext.User]</b></i>, <i><b>[HttpContext.Items]</b></i></div></td></tr><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">client</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">authentication token, language, flash message</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">cookies</div></td></tr></table>
+<table class="odt-table" style="border-collapse: collapse; width: 100%; margin-bottom: 1em;"><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0"><b>Scope</b></div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0"><b>Data</b></div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0"><b>Where?</b></div></td></tr><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">application</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">lists of doctors and clients, dictionaries, pending CAPTCHAs, attempt counters</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">Singleton services (<i><b>[ListCache], [Translator]</b></i>, <i><b>[CaptchaService]</b></i>...)</div></td></tr><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">Query</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">database access (<i><b>[DbContext]</b></i>), repositories, business layer, common view model; logged-in user</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0"><i><b>[Scoped]</b></i> services (<i><b>[RdvMedecinsDbContext]</b></i>, <i><b>[BusinessService]</b></i>, <i><b>[ApplicationModel]</b></i>...) ; <i><b>[HttpContext.User]</b></i>, <i><b>[HttpContext.Items]</b></i></div></td></tr><tr><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">client</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">authentication token, language, flash message</div></td><td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; text-align: left;"><div style="margin:0 0 0.5em 0">cookies</div></td></tr></table>
 
 
 
